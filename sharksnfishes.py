@@ -2,6 +2,7 @@ import pygame
 import sys
 from random import randint
 from functools import cache
+from collections import Counter
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
@@ -14,6 +15,7 @@ class CreatureFontError(Exception):
 class Creature:
     def __init__(self, x, y):
         self.x, self.y = (x, y)
+        self.next_x, self.next_y = (None, None)
         self.font = None
 
     @cache
@@ -33,21 +35,47 @@ class Creature:
         creature_surface = font.render(self.identifier, False, WHITE)
         return creature_surface
 
+    def move(self, visible_grid):
+        pass
+
+    def can_eat(self, creature):
+        return False
+
 
 class Shark(Creature):
     identifier = "S"
+    name = "Shark"
 
     def __init__(self, x, y):
         super().__init__(x, y)
         self.fontsize = 35
+
+    def move(self, visible_grid):
+        for loc, creature in visible_grid.items():
+            if isinstance(creature, Fish):
+                self.next_x = self.x + loc[0]
+                self.next_y = self.y + loc[1]
+                print(f"Eating fish at ({self.next_x}, {self.next_y})")
+                break
+        else:
+            self.next_x = self.x + randint(-1, 1)
+            self.next_y = self.y + randint(-1, 1)
+
+    def can_eat(self, creature):
+        return isinstance(creature, Fish)
 
 
 class Fish(Creature):
     identifier = "F"
+    name = "Fish"
 
     def __init__(self, x, y):
         super().__init__(x, y)
         self.fontsize = 35
+
+    def move(self, visible_grid):
+        self.next_x = self.x + randint(-1, 1)
+        self.next_y = self.y + randint(-1, 1)
 
 
 class SharksNFishes:
@@ -64,7 +92,9 @@ class SharksNFishes:
 
         pygame.init()
         pygame.font.init()
-        self.screen = pygame.display.set_mode((self.width * self.blocksize, self.height * self.blocksize))
+        self.screen = pygame.display.set_mode(
+            (self.width * self.blocksize, self.height * self.blocksize)
+        )
         self.clock = pygame.time.Clock()
         self.screen.fill(BLACK)
         self.initialise_fish()
@@ -85,9 +115,15 @@ class SharksNFishes:
         self._initialise_creatures(Fish, self.initial_fishes)
 
     def drawGrid(self):
+        self.screen.fill(BLACK)
         for x in range(0, self.width):
             for y in range(0, self.height):
-                rect = pygame.Rect(x * self.blocksize, y * self.blocksize, self.blocksize, self.blocksize)
+                rect = pygame.Rect(
+                    x * self.blocksize,
+                    y * self.blocksize,
+                    self.blocksize,
+                    self.blocksize,
+                )
                 pygame.draw.rect(self.screen, WHITE, rect, 1)
                 self.rects[(x, y)] = self.screen.subsurface(rect)
 
@@ -95,6 +131,38 @@ class SharksNFishes:
         for location, creature in self.grid.items():
             creature_surface = creature.get_surface(self.blocksize)
             self.rects[location].blit(creature_surface, (2, 2))
+
+    def get_visible(self, x, y):
+        visible_grid = {}
+        for x_offset in (-1, 0, 1):
+            for y_offset in (-1, 0, 1):
+                loc = (x + x_offset % self.width, y + y_offset % self.height)
+                if loc in self.grid:
+                    visible_grid[(x_offset, y_offset)] = self.grid[loc]
+        return visible_grid
+
+    def update_creatures(self):
+        for creature in self.grid.values():
+            creature.move(self.get_visible(creature.x, creature.y))
+
+    def update_grid(self):
+        new_grid = {}
+        for loc, creature in self.grid.items():
+            new_loc = (creature.next_x, creature.next_y)
+            if all([coord is not None for coord in new_loc]):
+                new_loc = (new_loc[0] % self.width, new_loc[1] % self.height)
+                if (
+                    new_loc not in self.grid or creature.can_eat(self.grid[new_loc])
+                ) and (new_loc not in new_grid or creature.can_eat(new_grid[new_loc])):
+                    new_grid[new_loc] = creature
+                    creature.x, creature.y = new_loc
+                    print(f"{creature.name} moving from {loc} to {new_loc}")
+                else:
+                    new_grid[(creature.x, creature.y)] = creature
+                    creature.next_x, creature.next_y = (None, None)
+            else:
+                new_grid[(creature.x, creature.y)] = creature
+        self.grid = new_grid
 
     def run(self):
         while True:
@@ -106,6 +174,13 @@ class SharksNFishes:
                     sys.exit()
 
             pygame.display.update()
+            self.update_creatures()
+            self.update_grid()
+            creature_counter = Counter(
+                [x.__class__.__name__ for x in self.grid.values()]
+            )
+            print(creature_counter)
+            pygame.time.delay(10000)
 
 
 def main():
