@@ -1,0 +1,22 @@
+{
+	"build_systems":
+	[
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "\"/home/mnj/.virtualenvs/SharksNFishes-Ln9IPu1L\" -u \"$file\"",
+		}
+	],
+	"folders":
+	[
+		{
+			"path": ".",
+		}
+	],
+	"settings":
+	{
+	    "pep8_max_line_length": 88,
+        "python_interpreter": "/home/mnj/.virtualenvs/SharksNFishes-Ln9IPu1L",
+	},
+}

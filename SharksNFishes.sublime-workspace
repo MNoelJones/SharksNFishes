@@ -1,0 +1,854 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"_comm",
+				"_commodity_unit\tstatement"
+			],
+			[
+				"parse_",
+				"parse_commodity_traded\tfunction"
+			],
+			[
+				"en",
+				"entries"
+			],
+			[
+				"is_",
+				"is_closed"
+			],
+			[
+				"set",
+				"set_closed"
+			],
+			[
+				"be",
+				"begin"
+			],
+			[
+				"find",
+				"find_next"
+			],
+			[
+				"current",
+				"current_weight"
+			],
+			[
+				"o",
+				"openmap"
+			],
+			[
+				"from",
+				"from_start"
+			],
+			[
+				"Node",
+				"NodePair"
+			],
+			[
+				"Nod",
+				"NodePair"
+			],
+			[
+				"in",
+				"inc\t#include \"…\""
+			],
+			[
+				"wit",
+				"weight"
+			],
+			[
+				"ios",
+				"iostream\tstandard header"
+			],
+			[
+				"diff",
+				"difference"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"is",
+				"is_current_page_on_right"
+			],
+			[
+				"cur",
+				"is_current_page_on_right"
+			],
+			[
+				"tur",
+				"turn_page"
+			],
+			[
+				"str",
+				"stringstream"
+			],
+			[
+				"Mission",
+				"MissionPlanningPanel"
+			],
+			[
+				"Dr",
+				"DrawList"
+			],
+			[
+				"Miss",
+				"MissionPlanningPanel"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "import pygame\nimport sys\nfrom random import randint\nfrom functools import cache\n\nBLACK = (0, 0, 0)\nWHITE = (200, 200, 200)\n\n\nclass CreatureFontError(Exception):\n    pass\n\n\nclass Creature:\n    def __init__(self, x, y):\n        self.x, self.y = (x, y)\n        self.font = None\n\n    @cache\n    def get_font(self, blocksize):\n        fontsize = self.fontsize\n        for fontsize in range(self.fontsize, 0, -1):\n            font = pygame.font.SysFont(\"Calibri\", fontsize)\n            surface_size = font.size(self.identifier)\n            if surface_size[0] < (blocksize - 2) and surface_size[1] < (blocksize - 2):\n                break\n        else:\n            raise CreatureFontError()\n        return font\n\n    def get_surface(self, blocksize):\n        font = self.get_font(blocksize)\n        creature_surface = font.render(self.identifier, False, WHITE)\n        return creature_surface\n\n\nclass Shark(Creature):\n    identifier = \"S\"\n\n    def __init__(self, x, y):\n        super().__init__(x, y)\n        self.fontsize = 35\n\n\nclass Fish(Creature):\n    identifier = \"F\"\n\n    def __init__(self, x, y):\n        super().__init__(x, y)\n        self.fontsize = 35\n\n\nclass SharksNFishes:\n    def __init__(self, width, height, initial_sharks, initial_fishes):\n        self.initial_fishes = initial_fishes\n        self.initial_sharks = initial_sharks\n        self.width = width\n        self.height = height\n        self.num_fish = 0\n        self.num_sharks = 0\n        self.blocksize = 20\n        self.grid = {}\n        self.rects = {}\n\n        pygame.init()\n        pygame.font.init()\n        self.screen = pygame.display.set_mode(\n            (self.width * self.blocksize, self.height * self.blocksize)\n        )\n        self.clock = pygame.time.Clock()\n        self.screen.fill(BLACK)\n        self.initialise_fish()\n        self.initialise_sharks()\n\n    def _initialise_creatures(self, creature_class, num_creatures):\n        creatures = []\n        while len(creatures) < num_creatures:\n            trial_grid = (randint(0, self.width - 1), randint(0, self.height - 1))\n            if trial_grid not in self.grid:\n                creatures.append(trial_grid)\n                self.grid[trial_grid] = creature_class(*trial_grid)\n\n    def initialise_sharks(self):\n        self._initialise_creatures(Shark, self.initial_sharks)\n\n    def initialise_fish(self):\n        self._initialise_creatures(Fish, self.initial_fishes)\n\n    def drawGrid(self):\n        for x in range(0, self.width):\n            for y in range(0, self.height):\n                rect = pygame.Rect(\n                    x * self.blocksize,\n                    y * self.blocksize,\n                    self.blocksize,\n                    self.blocksize,\n                )\n                pygame.draw.rect(self.screen, WHITE, rect, 1)\n                self.rects[(x, y)] = self.screen.subsurface(rect)\n\n    def draw_creatures(self):\n        for location, creature in self.grid.items():\n            creature_surface = creature.get_surface(self.blocksize)\n            self.rects[location].blit(creature_surface, (2, 2))\n\n    def run(self):\n        while True:\n            self.drawGrid()\n            self.draw_creatures()\n            for event in pygame.event.get():\n                if event.type == pygame.QUIT:\n                    pygame.quit()\n                    sys.exit()\n\n            pygame.display.update()\n\n\ndef main():\n    snf = SharksNFishes(20, 20, 10, 20)\n    snf.run()\n\n\nif __name__ == '__main__':\n    main()\n",
+			"file": "sharksnfishes.py",
+			"file_size": 3469,
+			"file_write_time": 132745340289862555,
+			"settings":
+			{
+				"buffer_size": 3469,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					8,
+					1,
+					"sequence",
+					{
+						"commands":
+						[
+							[
+								"move_to",
+								{
+									"extend": true,
+									"to": "eol"
+								}
+							],
+							[
+								"move",
+								{
+									"by": "characters",
+									"extend": true,
+									"forward": false
+								}
+							],
+							[
+								"insert_snippet",
+								{
+									"contents": "(${0:$SELECTION})"
+								}
+							]
+						]
+					},
+					"AgAAABkCAAAAAAAAGQIAAAAAAABHAAAAc3VyZmFjZV9zaXplWzBdIDwgKGJsb2Nrc2l6ZSAtIDIpIGFuZCBzdXJmYWNlX3NpemVbMV0gPCAoYmxvY2tzaXplIC0gMikZAgAAAAAAAGICAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAGQIAAAAAAAAZAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					11,
+					1,
+					"black",
+					null,
+					"AQAAAAAAAAAAAAAAjQ0AAAAAAAAWDQAAaW1wb3J0IHB5Z2FtZQppbXBvcnQgc3lzCmZyb20gcmFuZG9tIGltcG9ydCByYW5kaW50CmZyb20gZnVuY3Rvb2xzIGltcG9ydCBjYWNoZQoKQkxBQ0sgPSAoMCwgMCwgMCkKV0hJVEUgPSAoMjAwLCAyMDAsIDIwMCkKCgpjbGFzcyBDcmVhdHVyZUZvbnRFcnJvcihFeGNlcHRpb24pOgogICAgcGFzcwoKCmNsYXNzIENyZWF0dXJlOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHNlbGYueCwgc2VsZi55ID0gKHgsIHkpCiAgICAgICAgc2VsZi5mb250ID0gTm9uZQoKICAgIEBjYWNoZQogICAgZGVmIGdldF9mb250KHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udHNpemUgPSBzZWxmLmZvbnRzaXplCiAgICAgICAgZm9yIGZvbnRzaXplIGluIHJhbmdlKHNlbGYuZm9udHNpemUsIDAsIC0xKToKICAgICAgICAgICAgZm9udCA9IHB5Z2FtZS5mb250LlN5c0ZvbnQoIkNhbGlicmkiLCBmb250c2l6ZSkKICAgICAgICAgICAgc3VyZmFjZV9zaXplID0gZm9udC5zaXplKHNlbGYuaWRlbnRpZmllcikKICAgICAgICAgICAgaWYgKHN1cmZhY2Vfc2l6ZVswXSA8IChibG9ja3NpemUgLSAyKSBhbmQgc3VyZmFjZV9zaXplWzFdIDwgKGJsb2Nrc2l6ZSAtIDIpKToKICAgICAgICAgICAgICAgIGJyZWFrCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmFpc2UgQ3JlYXR1cmVGb250RXJyb3IoKQogICAgICAgIHJldHVybiBmb250CgogICAgZGVmIGdldF9zdXJmYWNlKHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udCA9IHNlbGYuZ2V0X2ZvbnQoYmxvY2tzaXplKQogICAgICAgIGNyZWF0dXJlX3N1cmZhY2UgPSBmb250LnJlbmRlcihzZWxmLmlkZW50aWZpZXIsIEZhbHNlLCBXSElURSkKICAgICAgICByZXR1cm4gY3JlYXR1cmVfc3VyZmFjZQoKCmNsYXNzIFNoYXJrKENyZWF0dXJlKToKICAgIGlkZW50aWZpZXIgPSAiUyIKCiAgICBkZWYgX19pbml0X18oc2VsZiwgeCwgeSk6CiAgICAgICAgc3VwZXIoKS5fX2luaXRfXyh4LCB5KQogICAgICAgIHNlbGYuZm9udHNpemUgPSAzNQoKCmNsYXNzIEZpc2goQ3JlYXR1cmUpOgogICAgaWRlbnRpZmllciA9ICJGIgoKICAgIGRlZiBfX2luaXRfXyhzZWxmLCB4LCB5KToKICAgICAgICBzdXBlcigpLl9faW5pdF9fKHgsIHkpCiAgICAgICAgc2VsZi5mb250c2l6ZSA9IDM1CgoKY2xhc3MgU2hhcmtzTkZpc2hlczoKICAgIGRlZiBfX2luaXRfXyhzZWxmLCB3aWR0aCwgaGVpZ2h0LCBpbml0aWFsX3NoYXJrcywgaW5pdGlhbF9maXNoZXMpOgogICAgICAgIHNlbGYuaW5pdGlhbF9maXNoZXMgPSBpbml0aWFsX2Zpc2hlcwogICAgICAgIHNlbGYuaW5pdGlhbF9zaGFya3MgPSBpbml0aWFsX3NoYXJrcwogICAgICAgIHNlbGYud2lkdGggPSB3aWR0aAogICAgICAgIHNlbGYuaGVpZ2h0ID0gaGVpZ2h0CiAgICAgICAgc2VsZi5udW1fZmlzaCA9IDAKICAgICAgICBzZWxmLm51bV9zaGFya3MgPSAwCiAgICAgICAgc2VsZi5ibG9ja3NpemUgPSAyMAogICAgICAgIHNlbGYuZ3JpZCA9IHt9CiAgICAgICAgc2VsZi5yZWN0cyA9IHt9CgogICAgICAgIHB5Z2FtZS5pbml0KCkKICAgICAgICBweWdhbWUuZm9udC5pbml0KCkKICAgICAgICBzZWxmLnNjcmVlbiA9IHB5Z2FtZS5kaXNwbGF5LnNldF9tb2RlKChzZWxmLndpZHRoICogc2VsZi5ibG9ja3NpemUsIHNlbGYuaGVpZ2h0ICogc2VsZi5ibG9ja3NpemUpKQogICAgICAgIHNlbGYuY2xvY2sgPSBweWdhbWUudGltZS5DbG9jaygpCiAgICAgICAgc2VsZi5zY3JlZW4uZmlsbChCTEFDSykKICAgICAgICBzZWxmLmluaXRpYWxpc2VfZmlzaCgpCiAgICAgICAgc2VsZi5pbml0aWFsaXNlX3NoYXJrcygpCgogICAgZGVmIF9pbml0aWFsaXNlX2NyZWF0dXJlcyhzZWxmLCBjcmVhdHVyZV9jbGFzcywgbnVtX2NyZWF0dXJlcyk6CiAgICAgICAgY3JlYXR1cmVzID0gW10KICAgICAgICB3aGlsZSBsZW4oY3JlYXR1cmVzKSA8IG51bV9jcmVhdHVyZXM6CiAgICAgICAgICAgIHRyaWFsX2dyaWQgPSAocmFuZGludCgwLCBzZWxmLndpZHRoIC0gMSksIHJhbmRpbnQoMCwgc2VsZi5oZWlnaHQgLSAxKSkKICAgICAgICAgICAgaWYgdHJpYWxfZ3JpZCBub3QgaW4gc2VsZi5ncmlkOgogICAgICAgICAgICAgICAgY3JlYXR1cmVzLmFwcGVuZCh0cmlhbF9ncmlkKQogICAgICAgICAgICAgICAgc2VsZi5ncmlkW3RyaWFsX2dyaWRdID0gY3JlYXR1cmVfY2xhc3MoKnRyaWFsX2dyaWQpCgogICAgZGVmIGluaXRpYWxpc2Vfc2hhcmtzKHNlbGYpOgogICAgICAgIHNlbGYuX2luaXRpYWxpc2VfY3JlYXR1cmVzKFNoYXJrLCBzZWxmLmluaXRpYWxfc2hhcmtzKQoKICAgIGRlZiBpbml0aWFsaXNlX2Zpc2goc2VsZik6CiAgICAgICAgc2VsZi5faW5pdGlhbGlzZV9jcmVhdHVyZXMoRmlzaCwgc2VsZi5pbml0aWFsX2Zpc2hlcykKCiAgICBkZWYgZHJhd0dyaWQoc2VsZik6CiAgICAgICAgZm9yIHggaW4gcmFuZ2UoMCwgc2VsZi53aWR0aCk6CiAgICAgICAgICAgIGZvciB5IGluIHJhbmdlKDAsIHNlbGYuaGVpZ2h0KToKICAgICAgICAgICAgICAgIHJlY3QgPSBweWdhbWUuUmVjdCh4ICogc2VsZi5ibG9ja3NpemUsIHkgKiBzZWxmLmJsb2Nrc2l6ZSwgc2VsZi5ibG9ja3NpemUsIHNlbGYuYmxvY2tzaXplKQogICAgICAgICAgICAgICAgcHlnYW1lLmRyYXcucmVjdChzZWxmLnNjcmVlbiwgV0hJVEUsIHJlY3QsIDEpCiAgICAgICAgICAgICAgICBzZWxmLnJlY3RzWyh4LCB5KV0gPSBzZWxmLnNjcmVlbi5zdWJzdXJmYWNlKHJlY3QpCgogICAgZGVmIGRyYXdfY3JlYXR1cmVzKHNlbGYpOgogICAgICAgIGZvciBsb2NhdGlvbiwgY3JlYXR1cmUgaW4gc2VsZi5ncmlkLml0ZW1zKCk6CiAgICAgICAgICAgIGNyZWF0dXJlX3N1cmZhY2UgPSBjcmVhdHVyZS5nZXRfc3VyZmFjZShzZWxmLmJsb2Nrc2l6ZSkKICAgICAgICAgICAgc2VsZi5yZWN0c1tsb2NhdGlvbl0uYmxpdChjcmVhdHVyZV9zdXJmYWNlLCAoMiwgMikpCgogICAgZGVmIHJ1bihzZWxmKToKICAgICAgICB3aGlsZSBUcnVlOgogICAgICAgICAgICBzZWxmLmRyYXdHcmlkKCkKICAgICAgICAgICAgc2VsZi5kcmF3X2NyZWF0dXJlcygpCiAgICAgICAgICAgIGZvciBldmVudCBpbiBweWdhbWUuZXZlbnQuZ2V0KCk6CiAgICAgICAgICAgICAgICBpZiBldmVudC50eXBlID09IHB5Z2FtZS5RVUlUOgogICAgICAgICAgICAgICAgICAgIHB5Z2FtZS5xdWl0KCkKICAgICAgICAgICAgICAgICAgICBzeXMuZXhpdCgpCgogICAgICAgICAgICBweWdhbWUuZGlzcGxheS51cGRhdGUoKQoKCmRlZiBtYWluKCk6CiAgICBzbmYgPSBTaGFya3NORmlzaGVzKDIwLCAyMCwgMTAsIDIwKQogICAgc25mLnJ1bigpCgoKaWYgX19uYW1lX18gPT0gJ19fbWFpbl9fJzoKICAgIG1haW4oKQo",
+					"AQAAAAAAAAABAAAAYAIAAAAAAABgAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					16,
+					1,
+					"black",
+					null,
+					"AQAAAAAAAAAAAAAAjQ0AAAAAAACNDQAAaW1wb3J0IHB5Z2FtZQppbXBvcnQgc3lzCmZyb20gcmFuZG9tIGltcG9ydCByYW5kaW50CmZyb20gZnVuY3Rvb2xzIGltcG9ydCBjYWNoZQoKQkxBQ0sgPSAoMCwgMCwgMCkKV0hJVEUgPSAoMjAwLCAyMDAsIDIwMCkKCgpjbGFzcyBDcmVhdHVyZUZvbnRFcnJvcihFeGNlcHRpb24pOgogICAgcGFzcwoKCmNsYXNzIENyZWF0dXJlOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHNlbGYueCwgc2VsZi55ID0gKHgsIHkpCiAgICAgICAgc2VsZi5mb250ID0gTm9uZQoKICAgIEBjYWNoZQogICAgZGVmIGdldF9mb250KHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udHNpemUgPSBzZWxmLmZvbnRzaXplCiAgICAgICAgZm9yIGZvbnRzaXplIGluIHJhbmdlKHNlbGYuZm9udHNpemUsIDAsIC0xKToKICAgICAgICAgICAgZm9udCA9IHB5Z2FtZS5mb250LlN5c0ZvbnQoIkNhbGlicmkiLCBmb250c2l6ZSkKICAgICAgICAgICAgc3VyZmFjZV9zaXplID0gZm9udC5zaXplKHNlbGYuaWRlbnRpZmllcikKICAgICAgICAgICAgaWYgc3VyZmFjZV9zaXplWzBdIDwgKGJsb2Nrc2l6ZSAtIDIpIGFuZCBzdXJmYWNlX3NpemVbMV0gPCAoYmxvY2tzaXplIC0gMik6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGVsc2U6CiAgICAgICAgICAgIHJhaXNlIENyZWF0dXJlRm9udEVycm9yKCkKICAgICAgICByZXR1cm4gZm9udAoKICAgIGRlZiBnZXRfc3VyZmFjZShzZWxmLCBibG9ja3NpemUpOgogICAgICAgIGZvbnQgPSBzZWxmLmdldF9mb250KGJsb2Nrc2l6ZSkKICAgICAgICBjcmVhdHVyZV9zdXJmYWNlID0gZm9udC5yZW5kZXIoc2VsZi5pZGVudGlmaWVyLCBGYWxzZSwgV0hJVEUpCiAgICAgICAgcmV0dXJuIGNyZWF0dXJlX3N1cmZhY2UKCgpjbGFzcyBTaGFyayhDcmVhdHVyZSk6CiAgICBpZGVudGlmaWVyID0gIlMiCgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHN1cGVyKCkuX19pbml0X18oeCwgeSkKICAgICAgICBzZWxmLmZvbnRzaXplID0gMzUKCgpjbGFzcyBGaXNoKENyZWF0dXJlKToKICAgIGlkZW50aWZpZXIgPSAiRiIKCiAgICBkZWYgX19pbml0X18oc2VsZiwgeCwgeSk6CiAgICAgICAgc3VwZXIoKS5fX2luaXRfXyh4LCB5KQogICAgICAgIHNlbGYuZm9udHNpemUgPSAzNQoKCmNsYXNzIFNoYXJrc05GaXNoZXM6CiAgICBkZWYgX19pbml0X18oc2VsZiwgd2lkdGgsIGhlaWdodCwgaW5pdGlhbF9zaGFya3MsIGluaXRpYWxfZmlzaGVzKToKICAgICAgICBzZWxmLmluaXRpYWxfZmlzaGVzID0gaW5pdGlhbF9maXNoZXMKICAgICAgICBzZWxmLmluaXRpYWxfc2hhcmtzID0gaW5pdGlhbF9zaGFya3MKICAgICAgICBzZWxmLndpZHRoID0gd2lkdGgKICAgICAgICBzZWxmLmhlaWdodCA9IGhlaWdodAogICAgICAgIHNlbGYubnVtX2Zpc2ggPSAwCiAgICAgICAgc2VsZi5udW1fc2hhcmtzID0gMAogICAgICAgIHNlbGYuYmxvY2tzaXplID0gMjAKICAgICAgICBzZWxmLmdyaWQgPSB7fQogICAgICAgIHNlbGYucmVjdHMgPSB7fQoKICAgICAgICBweWdhbWUuaW5pdCgpCiAgICAgICAgcHlnYW1lLmZvbnQuaW5pdCgpCiAgICAgICAgc2VsZi5zY3JlZW4gPSBweWdhbWUuZGlzcGxheS5zZXRfbW9kZSgKICAgICAgICAgICAgKHNlbGYud2lkdGggKiBzZWxmLmJsb2Nrc2l6ZSwgc2VsZi5oZWlnaHQgKiBzZWxmLmJsb2Nrc2l6ZSkKICAgICAgICApCiAgICAgICAgc2VsZi5jbG9jayA9IHB5Z2FtZS50aW1lLkNsb2NrKCkKICAgICAgICBzZWxmLnNjcmVlbi5maWxsKEJMQUNLKQogICAgICAgIHNlbGYuaW5pdGlhbGlzZV9maXNoKCkKICAgICAgICBzZWxmLmluaXRpYWxpc2Vfc2hhcmtzKCkKCiAgICBkZWYgX2luaXRpYWxpc2VfY3JlYXR1cmVzKHNlbGYsIGNyZWF0dXJlX2NsYXNzLCBudW1fY3JlYXR1cmVzKToKICAgICAgICBjcmVhdHVyZXMgPSBbXQogICAgICAgIHdoaWxlIGxlbihjcmVhdHVyZXMpIDwgbnVtX2NyZWF0dXJlczoKICAgICAgICAgICAgdHJpYWxfZ3JpZCA9IChyYW5kaW50KDAsIHNlbGYud2lkdGggLSAxKSwgcmFuZGludCgwLCBzZWxmLmhlaWdodCAtIDEpKQogICAgICAgICAgICBpZiB0cmlhbF9ncmlkIG5vdCBpbiBzZWxmLmdyaWQ6CiAgICAgICAgICAgICAgICBjcmVhdHVyZXMuYXBwZW5kKHRyaWFsX2dyaWQpCiAgICAgICAgICAgICAgICBzZWxmLmdyaWRbdHJpYWxfZ3JpZF0gPSBjcmVhdHVyZV9jbGFzcygqdHJpYWxfZ3JpZCkKCiAgICBkZWYgaW5pdGlhbGlzZV9zaGFya3Moc2VsZik6CiAgICAgICAgc2VsZi5faW5pdGlhbGlzZV9jcmVhdHVyZXMoU2hhcmssIHNlbGYuaW5pdGlhbF9zaGFya3MpCgogICAgZGVmIGluaXRpYWxpc2VfZmlzaChzZWxmKToKICAgICAgICBzZWxmLl9pbml0aWFsaXNlX2NyZWF0dXJlcyhGaXNoLCBzZWxmLmluaXRpYWxfZmlzaGVzKQoKICAgIGRlZiBkcmF3R3JpZChzZWxmKToKICAgICAgICBmb3IgeCBpbiByYW5nZSgwLCBzZWxmLndpZHRoKToKICAgICAgICAgICAgZm9yIHkgaW4gcmFuZ2UoMCwgc2VsZi5oZWlnaHQpOgogICAgICAgICAgICAgICAgcmVjdCA9IHB5Z2FtZS5SZWN0KAogICAgICAgICAgICAgICAgICAgIHggKiBzZWxmLmJsb2Nrc2l6ZSwKICAgICAgICAgICAgICAgICAgICB5ICogc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICAgICBweWdhbWUuZHJhdy5yZWN0KHNlbGYuc2NyZWVuLCBXSElURSwgcmVjdCwgMSkKICAgICAgICAgICAgICAgIHNlbGYucmVjdHNbKHgsIHkpXSA9IHNlbGYuc2NyZWVuLnN1YnN1cmZhY2UocmVjdCkKCiAgICBkZWYgZHJhd19jcmVhdHVyZXMoc2VsZik6CiAgICAgICAgZm9yIGxvY2F0aW9uLCBjcmVhdHVyZSBpbiBzZWxmLmdyaWQuaXRlbXMoKToKICAgICAgICAgICAgY3JlYXR1cmVfc3VyZmFjZSA9IGNyZWF0dXJlLmdldF9zdXJmYWNlKHNlbGYuYmxvY2tzaXplKQogICAgICAgICAgICBzZWxmLnJlY3RzW2xvY2F0aW9uXS5ibGl0KGNyZWF0dXJlX3N1cmZhY2UsICgyLCAyKSkKCiAgICBkZWYgcnVuKHNlbGYpOgogICAgICAgIHdoaWxlIFRydWU6CiAgICAgICAgICAgIHNlbGYuZHJhd0dyaWQoKQogICAgICAgICAgICBzZWxmLmRyYXdfY3JlYXR1cmVzKCkKICAgICAgICAgICAgZm9yIGV2ZW50IGluIHB5Z2FtZS5ldmVudC5nZXQoKToKICAgICAgICAgICAgICAgIGlmIGV2ZW50LnR5cGUgPT0gcHlnYW1lLlFVSVQ6CiAgICAgICAgICAgICAgICAgICAgcHlnYW1lLnF1aXQoKQogICAgICAgICAgICAgICAgICAgIHN5cy5leGl0KCkKCiAgICAgICAgICAgIHB5Z2FtZS5kaXNwbGF5LnVwZGF0ZSgpCgoKZGVmIG1haW4oKToKICAgIHNuZiA9IFNoYXJrc05GaXNoZXMoMjAsIDIwLCAxMCwgMjApCiAgICBzbmYucnVuKCkKCgppZiBfX25hbWVfXyA9PSAnX19tYWluX18nOgogICAgbWFpbigpCg",
+					"AQAAAAAAAAABAAAASAIAAAAAAABIAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					19,
+					1,
+					"black",
+					null,
+					"AQAAAAAAAAAAAAAAjQ0AAAAAAACNDQAAaW1wb3J0IHB5Z2FtZQppbXBvcnQgc3lzCmZyb20gcmFuZG9tIGltcG9ydCByYW5kaW50CmZyb20gZnVuY3Rvb2xzIGltcG9ydCBjYWNoZQoKQkxBQ0sgPSAoMCwgMCwgMCkKV0hJVEUgPSAoMjAwLCAyMDAsIDIwMCkKCgpjbGFzcyBDcmVhdHVyZUZvbnRFcnJvcihFeGNlcHRpb24pOgogICAgcGFzcwoKCmNsYXNzIENyZWF0dXJlOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHNlbGYueCwgc2VsZi55ID0gKHgsIHkpCiAgICAgICAgc2VsZi5mb250ID0gTm9uZQoKICAgIEBjYWNoZQogICAgZGVmIGdldF9mb250KHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udHNpemUgPSBzZWxmLmZvbnRzaXplCiAgICAgICAgZm9yIGZvbnRzaXplIGluIHJhbmdlKHNlbGYuZm9udHNpemUsIDAsIC0xKToKICAgICAgICAgICAgZm9udCA9IHB5Z2FtZS5mb250LlN5c0ZvbnQoIkNhbGlicmkiLCBmb250c2l6ZSkKICAgICAgICAgICAgc3VyZmFjZV9zaXplID0gZm9udC5zaXplKHNlbGYuaWRlbnRpZmllcikKICAgICAgICAgICAgaWYgc3VyZmFjZV9zaXplWzBdIDwgKGJsb2Nrc2l6ZSAtIDIpIGFuZCBzdXJmYWNlX3NpemVbMV0gPCAoYmxvY2tzaXplIC0gMik6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGVsc2U6CiAgICAgICAgICAgIHJhaXNlIENyZWF0dXJlRm9udEVycm9yKCkKICAgICAgICByZXR1cm4gZm9udAoKICAgIGRlZiBnZXRfc3VyZmFjZShzZWxmLCBibG9ja3NpemUpOgogICAgICAgIGZvbnQgPSBzZWxmLmdldF9mb250KGJsb2Nrc2l6ZSkKICAgICAgICBjcmVhdHVyZV9zdXJmYWNlID0gZm9udC5yZW5kZXIoc2VsZi5pZGVudGlmaWVyLCBGYWxzZSwgV0hJVEUpCiAgICAgICAgcmV0dXJuIGNyZWF0dXJlX3N1cmZhY2UKCgpjbGFzcyBTaGFyayhDcmVhdHVyZSk6CiAgICBpZGVudGlmaWVyID0gIlMiCgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHN1cGVyKCkuX19pbml0X18oeCwgeSkKICAgICAgICBzZWxmLmZvbnRzaXplID0gMzUKCgpjbGFzcyBGaXNoKENyZWF0dXJlKToKICAgIGlkZW50aWZpZXIgPSAiRiIKCiAgICBkZWYgX19pbml0X18oc2VsZiwgeCwgeSk6CiAgICAgICAgc3VwZXIoKS5fX2luaXRfXyh4LCB5KQogICAgICAgIHNlbGYuZm9udHNpemUgPSAzNQoKCmNsYXNzIFNoYXJrc05GaXNoZXM6CiAgICBkZWYgX19pbml0X18oc2VsZiwgd2lkdGgsIGhlaWdodCwgaW5pdGlhbF9zaGFya3MsIGluaXRpYWxfZmlzaGVzKToKICAgICAgICBzZWxmLmluaXRpYWxfZmlzaGVzID0gaW5pdGlhbF9maXNoZXMKICAgICAgICBzZWxmLmluaXRpYWxfc2hhcmtzID0gaW5pdGlhbF9zaGFya3MKICAgICAgICBzZWxmLndpZHRoID0gd2lkdGgKICAgICAgICBzZWxmLmhlaWdodCA9IGhlaWdodAogICAgICAgIHNlbGYubnVtX2Zpc2ggPSAwCiAgICAgICAgc2VsZi5udW1fc2hhcmtzID0gMAogICAgICAgIHNlbGYuYmxvY2tzaXplID0gMjAKICAgICAgICBzZWxmLmdyaWQgPSB7fQogICAgICAgIHNlbGYucmVjdHMgPSB7fQoKICAgICAgICBweWdhbWUuaW5pdCgpCiAgICAgICAgcHlnYW1lLmZvbnQuaW5pdCgpCiAgICAgICAgc2VsZi5zY3JlZW4gPSBweWdhbWUuZGlzcGxheS5zZXRfbW9kZSgKICAgICAgICAgICAgKHNlbGYud2lkdGggKiBzZWxmLmJsb2Nrc2l6ZSwgc2VsZi5oZWlnaHQgKiBzZWxmLmJsb2Nrc2l6ZSkKICAgICAgICApCiAgICAgICAgc2VsZi5jbG9jayA9IHB5Z2FtZS50aW1lLkNsb2NrKCkKICAgICAgICBzZWxmLnNjcmVlbi5maWxsKEJMQUNLKQogICAgICAgIHNlbGYuaW5pdGlhbGlzZV9maXNoKCkKICAgICAgICBzZWxmLmluaXRpYWxpc2Vfc2hhcmtzKCkKCiAgICBkZWYgX2luaXRpYWxpc2VfY3JlYXR1cmVzKHNlbGYsIGNyZWF0dXJlX2NsYXNzLCBudW1fY3JlYXR1cmVzKToKICAgICAgICBjcmVhdHVyZXMgPSBbXQogICAgICAgIHdoaWxlIGxlbihjcmVhdHVyZXMpIDwgbnVtX2NyZWF0dXJlczoKICAgICAgICAgICAgdHJpYWxfZ3JpZCA9IChyYW5kaW50KDAsIHNlbGYud2lkdGggLSAxKSwgcmFuZGludCgwLCBzZWxmLmhlaWdodCAtIDEpKQogICAgICAgICAgICBpZiB0cmlhbF9ncmlkIG5vdCBpbiBzZWxmLmdyaWQ6CiAgICAgICAgICAgICAgICBjcmVhdHVyZXMuYXBwZW5kKHRyaWFsX2dyaWQpCiAgICAgICAgICAgICAgICBzZWxmLmdyaWRbdHJpYWxfZ3JpZF0gPSBjcmVhdHVyZV9jbGFzcygqdHJpYWxfZ3JpZCkKCiAgICBkZWYgaW5pdGlhbGlzZV9zaGFya3Moc2VsZik6CiAgICAgICAgc2VsZi5faW5pdGlhbGlzZV9jcmVhdHVyZXMoU2hhcmssIHNlbGYuaW5pdGlhbF9zaGFya3MpCgogICAgZGVmIGluaXRpYWxpc2VfZmlzaChzZWxmKToKICAgICAgICBzZWxmLl9pbml0aWFsaXNlX2NyZWF0dXJlcyhGaXNoLCBzZWxmLmluaXRpYWxfZmlzaGVzKQoKICAgIGRlZiBkcmF3R3JpZChzZWxmKToKICAgICAgICBmb3IgeCBpbiByYW5nZSgwLCBzZWxmLndpZHRoKToKICAgICAgICAgICAgZm9yIHkgaW4gcmFuZ2UoMCwgc2VsZi5oZWlnaHQpOgogICAgICAgICAgICAgICAgcmVjdCA9IHB5Z2FtZS5SZWN0KAogICAgICAgICAgICAgICAgICAgIHggKiBzZWxmLmJsb2Nrc2l6ZSwKICAgICAgICAgICAgICAgICAgICB5ICogc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICAgICBweWdhbWUuZHJhdy5yZWN0KHNlbGYuc2NyZWVuLCBXSElURSwgcmVjdCwgMSkKICAgICAgICAgICAgICAgIHNlbGYucmVjdHNbKHgsIHkpXSA9IHNlbGYuc2NyZWVuLnN1YnN1cmZhY2UocmVjdCkKCiAgICBkZWYgZHJhd19jcmVhdHVyZXMoc2VsZik6CiAgICAgICAgZm9yIGxvY2F0aW9uLCBjcmVhdHVyZSBpbiBzZWxmLmdyaWQuaXRlbXMoKToKICAgICAgICAgICAgY3JlYXR1cmVfc3VyZmFjZSA9IGNyZWF0dXJlLmdldF9zdXJmYWNlKHNlbGYuYmxvY2tzaXplKQogICAgICAgICAgICBzZWxmLnJlY3RzW2xvY2F0aW9uXS5ibGl0KGNyZWF0dXJlX3N1cmZhY2UsICgyLCAyKSkKCiAgICBkZWYgcnVuKHNlbGYpOgogICAgICAgIHdoaWxlIFRydWU6CiAgICAgICAgICAgIHNlbGYuZHJhd0dyaWQoKQogICAgICAgICAgICBzZWxmLmRyYXdfY3JlYXR1cmVzKCkKICAgICAgICAgICAgZm9yIGV2ZW50IGluIHB5Z2FtZS5ldmVudC5nZXQoKToKICAgICAgICAgICAgICAgIGlmIGV2ZW50LnR5cGUgPT0gcHlnYW1lLlFVSVQ6CiAgICAgICAgICAgICAgICAgICAgcHlnYW1lLnF1aXQoKQogICAgICAgICAgICAgICAgICAgIHN5cy5leGl0KCkKCiAgICAgICAgICAgIHB5Z2FtZS5kaXNwbGF5LnVwZGF0ZSgpCgoKZGVmIG1haW4oKToKICAgIHNuZiA9IFNoYXJrc05GaXNoZXMoMjAsIDIwLCAxMCwgMjApCiAgICBzbmYucnVuKCkKCgppZiBfX25hbWVfXyA9PSAnX19tYWluX18nOgogICAgbWFpbigpCg",
+					"AQAAAAAAAAABAAAAEwEAAAAAAAATAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					26,
+					1,
+					"sequence",
+					{
+						"commands":
+						[
+							[
+								"move_to",
+								{
+									"extend": true,
+									"to": "eol"
+								}
+							],
+							[
+								"move",
+								{
+									"by": "characters",
+									"extend": true,
+									"forward": false
+								}
+							],
+							[
+								"insert_snippet",
+								{
+									"contents": "(${0:$SELECTION})"
+								}
+							]
+						]
+					},
+					"AgAAABkCAAAAAAAAGQIAAAAAAABHAAAAc3VyZmFjZV9zaXplWzBdIDwgKGJsb2Nrc2l6ZSAtIDIpIGFuZCBzdXJmYWNlX3NpemVbMV0gPCAoYmxvY2tzaXplIC0gMikZAgAAAAAAAGICAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAGQIAAAAAAAAZAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					29,
+					1,
+					"black",
+					null,
+					"AQAAAAAAAAAAAAAAjQ0AAAAAAACPDQAAaW1wb3J0IHB5Z2FtZQppbXBvcnQgc3lzCmZyb20gcmFuZG9tIGltcG9ydCByYW5kaW50CmZyb20gZnVuY3Rvb2xzIGltcG9ydCBjYWNoZQoKQkxBQ0sgPSAoMCwgMCwgMCkKV0hJVEUgPSAoMjAwLCAyMDAsIDIwMCkKCgpjbGFzcyBDcmVhdHVyZUZvbnRFcnJvcihFeGNlcHRpb24pOgogICAgcGFzcwoKCmNsYXNzIENyZWF0dXJlOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHNlbGYueCwgc2VsZi55ID0gKHgsIHkpCiAgICAgICAgc2VsZi5mb250ID0gTm9uZQoKICAgIEBjYWNoZQogICAgZGVmIGdldF9mb250KHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udHNpemUgPSBzZWxmLmZvbnRzaXplCiAgICAgICAgZm9yIGZvbnRzaXplIGluIHJhbmdlKHNlbGYuZm9udHNpemUsIDAsIC0xKToKICAgICAgICAgICAgZm9udCA9IHB5Z2FtZS5mb250LlN5c0ZvbnQoIkNhbGlicmkiLCBmb250c2l6ZSkKICAgICAgICAgICAgc3VyZmFjZV9zaXplID0gZm9udC5zaXplKHNlbGYuaWRlbnRpZmllcikKICAgICAgICAgICAgaWYgKHN1cmZhY2Vfc2l6ZVswXSA8IChibG9ja3NpemUgLSAyKSBhbmQgc3VyZmFjZV9zaXplWzFdIDwgKGJsb2Nrc2l6ZSAtIDIpKToKICAgICAgICAgICAgICAgIGJyZWFrCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmFpc2UgQ3JlYXR1cmVGb250RXJyb3IoKQogICAgICAgIHJldHVybiBmb250CgogICAgZGVmIGdldF9zdXJmYWNlKHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udCA9IHNlbGYuZ2V0X2ZvbnQoYmxvY2tzaXplKQogICAgICAgIGNyZWF0dXJlX3N1cmZhY2UgPSBmb250LnJlbmRlcihzZWxmLmlkZW50aWZpZXIsIEZhbHNlLCBXSElURSkKICAgICAgICByZXR1cm4gY3JlYXR1cmVfc3VyZmFjZQoKCmNsYXNzIFNoYXJrKENyZWF0dXJlKToKICAgIGlkZW50aWZpZXIgPSAiUyIKCiAgICBkZWYgX19pbml0X18oc2VsZiwgeCwgeSk6CiAgICAgICAgc3VwZXIoKS5fX2luaXRfXyh4LCB5KQogICAgICAgIHNlbGYuZm9udHNpemUgPSAzNQoKCmNsYXNzIEZpc2goQ3JlYXR1cmUpOgogICAgaWRlbnRpZmllciA9ICJGIgoKICAgIGRlZiBfX2luaXRfXyhzZWxmLCB4LCB5KToKICAgICAgICBzdXBlcigpLl9faW5pdF9fKHgsIHkpCiAgICAgICAgc2VsZi5mb250c2l6ZSA9IDM1CgoKY2xhc3MgU2hhcmtzTkZpc2hlczoKICAgIGRlZiBfX2luaXRfXyhzZWxmLCB3aWR0aCwgaGVpZ2h0LCBpbml0aWFsX3NoYXJrcywgaW5pdGlhbF9maXNoZXMpOgogICAgICAgIHNlbGYuaW5pdGlhbF9maXNoZXMgPSBpbml0aWFsX2Zpc2hlcwogICAgICAgIHNlbGYuaW5pdGlhbF9zaGFya3MgPSBpbml0aWFsX3NoYXJrcwogICAgICAgIHNlbGYud2lkdGggPSB3aWR0aAogICAgICAgIHNlbGYuaGVpZ2h0ID0gaGVpZ2h0CiAgICAgICAgc2VsZi5udW1fZmlzaCA9IDAKICAgICAgICBzZWxmLm51bV9zaGFya3MgPSAwCiAgICAgICAgc2VsZi5ibG9ja3NpemUgPSAyMAogICAgICAgIHNlbGYuZ3JpZCA9IHt9CiAgICAgICAgc2VsZi5yZWN0cyA9IHt9CgogICAgICAgIHB5Z2FtZS5pbml0KCkKICAgICAgICBweWdhbWUuZm9udC5pbml0KCkKICAgICAgICBzZWxmLnNjcmVlbiA9IHB5Z2FtZS5kaXNwbGF5LnNldF9tb2RlKAogICAgICAgICAgICAoc2VsZi53aWR0aCAqIHNlbGYuYmxvY2tzaXplLCBzZWxmLmhlaWdodCAqIHNlbGYuYmxvY2tzaXplKQogICAgICAgICkKICAgICAgICBzZWxmLmNsb2NrID0gcHlnYW1lLnRpbWUuQ2xvY2soKQogICAgICAgIHNlbGYuc2NyZWVuLmZpbGwoQkxBQ0spCiAgICAgICAgc2VsZi5pbml0aWFsaXNlX2Zpc2goKQogICAgICAgIHNlbGYuaW5pdGlhbGlzZV9zaGFya3MoKQoKICAgIGRlZiBfaW5pdGlhbGlzZV9jcmVhdHVyZXMoc2VsZiwgY3JlYXR1cmVfY2xhc3MsIG51bV9jcmVhdHVyZXMpOgogICAgICAgIGNyZWF0dXJlcyA9IFtdCiAgICAgICAgd2hpbGUgbGVuKGNyZWF0dXJlcykgPCBudW1fY3JlYXR1cmVzOgogICAgICAgICAgICB0cmlhbF9ncmlkID0gKHJhbmRpbnQoMCwgc2VsZi53aWR0aCAtIDEpLCByYW5kaW50KDAsIHNlbGYuaGVpZ2h0IC0gMSkpCiAgICAgICAgICAgIGlmIHRyaWFsX2dyaWQgbm90IGluIHNlbGYuZ3JpZDoKICAgICAgICAgICAgICAgIGNyZWF0dXJlcy5hcHBlbmQodHJpYWxfZ3JpZCkKICAgICAgICAgICAgICAgIHNlbGYuZ3JpZFt0cmlhbF9ncmlkXSA9IGNyZWF0dXJlX2NsYXNzKCp0cmlhbF9ncmlkKQoKICAgIGRlZiBpbml0aWFsaXNlX3NoYXJrcyhzZWxmKToKICAgICAgICBzZWxmLl9pbml0aWFsaXNlX2NyZWF0dXJlcyhTaGFyaywgc2VsZi5pbml0aWFsX3NoYXJrcykKCiAgICBkZWYgaW5pdGlhbGlzZV9maXNoKHNlbGYpOgogICAgICAgIHNlbGYuX2luaXRpYWxpc2VfY3JlYXR1cmVzKEZpc2gsIHNlbGYuaW5pdGlhbF9maXNoZXMpCgogICAgZGVmIGRyYXdHcmlkKHNlbGYpOgogICAgICAgIGZvciB4IGluIHJhbmdlKDAsIHNlbGYud2lkdGgpOgogICAgICAgICAgICBmb3IgeSBpbiByYW5nZSgwLCBzZWxmLmhlaWdodCk6CiAgICAgICAgICAgICAgICByZWN0ID0gcHlnYW1lLlJlY3QoCiAgICAgICAgICAgICAgICAgICAgeCAqIHNlbGYuYmxvY2tzaXplLAogICAgICAgICAgICAgICAgICAgIHkgKiBzZWxmLmJsb2Nrc2l6ZSwKICAgICAgICAgICAgICAgICAgICBzZWxmLmJsb2Nrc2l6ZSwKICAgICAgICAgICAgICAgICAgICBzZWxmLmJsb2Nrc2l6ZSwKICAgICAgICAgICAgICAgICkKICAgICAgICAgICAgICAgIHB5Z2FtZS5kcmF3LnJlY3Qoc2VsZi5zY3JlZW4sIFdISVRFLCByZWN0LCAxKQogICAgICAgICAgICAgICAgc2VsZi5yZWN0c1soeCwgeSldID0gc2VsZi5zY3JlZW4uc3Vic3VyZmFjZShyZWN0KQoKICAgIGRlZiBkcmF3X2NyZWF0dXJlcyhzZWxmKToKICAgICAgICBmb3IgbG9jYXRpb24sIGNyZWF0dXJlIGluIHNlbGYuZ3JpZC5pdGVtcygpOgogICAgICAgICAgICBjcmVhdHVyZV9zdXJmYWNlID0gY3JlYXR1cmUuZ2V0X3N1cmZhY2Uoc2VsZi5ibG9ja3NpemUpCiAgICAgICAgICAgIHNlbGYucmVjdHNbbG9jYXRpb25dLmJsaXQoY3JlYXR1cmVfc3VyZmFjZSwgKDIsIDIpKQoKICAgIGRlZiBydW4oc2VsZik6CiAgICAgICAgd2hpbGUgVHJ1ZToKICAgICAgICAgICAgc2VsZi5kcmF3R3JpZCgpCiAgICAgICAgICAgIHNlbGYuZHJhd19jcmVhdHVyZXMoKQogICAgICAgICAgICBmb3IgZXZlbnQgaW4gcHlnYW1lLmV2ZW50LmdldCgpOgogICAgICAgICAgICAgICAgaWYgZXZlbnQudHlwZSA9PSBweWdhbWUuUVVJVDoKICAgICAgICAgICAgICAgICAgICBweWdhbWUucXVpdCgpCiAgICAgICAgICAgICAgICAgICAgc3lzLmV4aXQoKQoKICAgICAgICAgICAgcHlnYW1lLmRpc3BsYXkudXBkYXRlKCkKCgpkZWYgbWFpbigpOgogICAgc25mID0gU2hhcmtzTkZpc2hlcygyMCwgMjAsIDEwLCAyMCkKICAgIHNuZi5ydW4oKQoKCmlmIF9fbmFtZV9fID09ICdfX21haW5fXyc6CiAgICBtYWluKCkK",
+					"AQAAAAAAAAABAAAAYAIAAAAAAABgAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					34,
+					1,
+					"sequence",
+					{
+						"commands":
+						[
+							[
+								"move_to",
+								{
+									"extend": true,
+									"to": "eol"
+								}
+							],
+							[
+								"move",
+								{
+									"by": "characters",
+									"extend": true,
+									"forward": false
+								}
+							],
+							[
+								"insert_snippet",
+								{
+									"contents": "(${0:$SELECTION})"
+								}
+							]
+						]
+					},
+					"AgAAABkCAAAAAAAAGQIAAAAAAABHAAAAc3VyZmFjZV9zaXplWzBdIDwgKGJsb2Nrc2l6ZSAtIDIpIGFuZCBzdXJmYWNlX3NpemVbMV0gPCAoYmxvY2tzaXplIC0gMikZAgAAAAAAAGICAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAGQIAAAAAAAAZAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					39,
+					1,
+					"replace_character",
+					{
+						"character": "\n"
+					},
+					"AgAAADsCAAAAAAAAPAIAAAAAAAABAAAAIDwCAAAAAAAATAIAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAOwIAAAAAAAA7AgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					42,
+					1,
+					"sequence",
+					{
+						"commands":
+						[
+							[
+								"insert",
+								{
+									"characters": "\n"
+								}
+							],
+							[
+								"exit_insert_mode",
+								null
+							]
+						]
+					},
+					"BAAAABoCAAAAAAAAGwIAAAAAAAAAAAAAGwIAAAAAAAAnAgAAAAAAAAAAAAAbAgAAAAAAABsCAAAAAAAADAAAACAgICAgICAgICAgIBsCAAAAAAAAKwIAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAGgIAAAAAAAAaAgAAAAAAAAAAAAAAAGxA"
+				],
+				[
+					49,
+					1,
+					"sequence",
+					{
+						"commands":
+						[
+							[
+								"insert",
+								{
+									"characters": "\n"
+								}
+							],
+							[
+								"left_delete",
+								null
+							],
+							[
+								"exit_insert_mode",
+								null
+							]
+						]
+					},
+					"AwAAAIICAAAAAAAAgwIAAAAAAAAAAAAAgwIAAAAAAACTAgAAAAAAAAAAAACPAgAAAAAAAI8CAAAAAAAABAAAACAgICA",
+					"AQAAAAAAAAABAAAAggIAAAAAAACCAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					50,
+					1,
+					"black",
+					null,
+					"AQAAAAAAAAAAAAAAjQ0AAAAAAAC9DQAAaW1wb3J0IHB5Z2FtZQppbXBvcnQgc3lzCmZyb20gcmFuZG9tIGltcG9ydCByYW5kaW50CmZyb20gZnVuY3Rvb2xzIGltcG9ydCBjYWNoZQoKQkxBQ0sgPSAoMCwgMCwgMCkKV0hJVEUgPSAoMjAwLCAyMDAsIDIwMCkKCgpjbGFzcyBDcmVhdHVyZUZvbnRFcnJvcihFeGNlcHRpb24pOgogICAgcGFzcwoKCmNsYXNzIENyZWF0dXJlOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHNlbGYueCwgc2VsZi55ID0gKHgsIHkpCiAgICAgICAgc2VsZi5mb250ID0gTm9uZQoKICAgIEBjYWNoZQogICAgZGVmIGdldF9mb250KHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udHNpemUgPSBzZWxmLmZvbnRzaXplCiAgICAgICAgZm9yIGZvbnRzaXplIGluIHJhbmdlKHNlbGYuZm9udHNpemUsIDAsIC0xKToKICAgICAgICAgICAgZm9udCA9IHB5Z2FtZS5mb250LlN5c0ZvbnQoIkNhbGlicmkiLCBmb250c2l6ZSkKICAgICAgICAgICAgc3VyZmFjZV9zaXplID0gZm9udC5zaXplKHNlbGYuaWRlbnRpZmllcikKICAgICAgICAgICAgaWYgKAogICAgICAgICAgICAgICAgc3VyZmFjZV9zaXplWzBdIDwgKGJsb2Nrc2l6ZSAtIDIpCiAgICAgICAgICAgICAgICBhbmQgc3VyZmFjZV9zaXplWzFdIDwgKGJsb2Nrc2l6ZSAtIDIpCiAgICAgICAgICAgICk6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGVsc2U6CiAgICAgICAgICAgIHJhaXNlIENyZWF0dXJlRm9udEVycm9yKCkKICAgICAgICByZXR1cm4gZm9udAoKICAgIGRlZiBnZXRfc3VyZmFjZShzZWxmLCBibG9ja3NpemUpOgogICAgICAgIGZvbnQgPSBzZWxmLmdldF9mb250KGJsb2Nrc2l6ZSkKICAgICAgICBjcmVhdHVyZV9zdXJmYWNlID0gZm9udC5yZW5kZXIoc2VsZi5pZGVudGlmaWVyLCBGYWxzZSwgV0hJVEUpCiAgICAgICAgcmV0dXJuIGNyZWF0dXJlX3N1cmZhY2UKCgpjbGFzcyBTaGFyayhDcmVhdHVyZSk6CiAgICBpZGVudGlmaWVyID0gIlMiCgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHN1cGVyKCkuX19pbml0X18oeCwgeSkKICAgICAgICBzZWxmLmZvbnRzaXplID0gMzUKCgpjbGFzcyBGaXNoKENyZWF0dXJlKToKICAgIGlkZW50aWZpZXIgPSAiRiIKCiAgICBkZWYgX19pbml0X18oc2VsZiwgeCwgeSk6CiAgICAgICAgc3VwZXIoKS5fX2luaXRfXyh4LCB5KQogICAgICAgIHNlbGYuZm9udHNpemUgPSAzNQoKCmNsYXNzIFNoYXJrc05GaXNoZXM6CiAgICBkZWYgX19pbml0X18oc2VsZiwgd2lkdGgsIGhlaWdodCwgaW5pdGlhbF9zaGFya3MsIGluaXRpYWxfZmlzaGVzKToKICAgICAgICBzZWxmLmluaXRpYWxfZmlzaGVzID0gaW5pdGlhbF9maXNoZXMKICAgICAgICBzZWxmLmluaXRpYWxfc2hhcmtzID0gaW5pdGlhbF9zaGFya3MKICAgICAgICBzZWxmLndpZHRoID0gd2lkdGgKICAgICAgICBzZWxmLmhlaWdodCA9IGhlaWdodAogICAgICAgIHNlbGYubnVtX2Zpc2ggPSAwCiAgICAgICAgc2VsZi5udW1fc2hhcmtzID0gMAogICAgICAgIHNlbGYuYmxvY2tzaXplID0gMjAKICAgICAgICBzZWxmLmdyaWQgPSB7fQogICAgICAgIHNlbGYucmVjdHMgPSB7fQoKICAgICAgICBweWdhbWUuaW5pdCgpCiAgICAgICAgcHlnYW1lLmZvbnQuaW5pdCgpCiAgICAgICAgc2VsZi5zY3JlZW4gPSBweWdhbWUuZGlzcGxheS5zZXRfbW9kZSgKICAgICAgICAgICAgKHNlbGYud2lkdGggKiBzZWxmLmJsb2Nrc2l6ZSwgc2VsZi5oZWlnaHQgKiBzZWxmLmJsb2Nrc2l6ZSkKICAgICAgICApCiAgICAgICAgc2VsZi5jbG9jayA9IHB5Z2FtZS50aW1lLkNsb2NrKCkKICAgICAgICBzZWxmLnNjcmVlbi5maWxsKEJMQUNLKQogICAgICAgIHNlbGYuaW5pdGlhbGlzZV9maXNoKCkKICAgICAgICBzZWxmLmluaXRpYWxpc2Vfc2hhcmtzKCkKCiAgICBkZWYgX2luaXRpYWxpc2VfY3JlYXR1cmVzKHNlbGYsIGNyZWF0dXJlX2NsYXNzLCBudW1fY3JlYXR1cmVzKToKICAgICAgICBjcmVhdHVyZXMgPSBbXQogICAgICAgIHdoaWxlIGxlbihjcmVhdHVyZXMpIDwgbnVtX2NyZWF0dXJlczoKICAgICAgICAgICAgdHJpYWxfZ3JpZCA9IChyYW5kaW50KDAsIHNlbGYud2lkdGggLSAxKSwgcmFuZGludCgwLCBzZWxmLmhlaWdodCAtIDEpKQogICAgICAgICAgICBpZiB0cmlhbF9ncmlkIG5vdCBpbiBzZWxmLmdyaWQ6CiAgICAgICAgICAgICAgICBjcmVhdHVyZXMuYXBwZW5kKHRyaWFsX2dyaWQpCiAgICAgICAgICAgICAgICBzZWxmLmdyaWRbdHJpYWxfZ3JpZF0gPSBjcmVhdHVyZV9jbGFzcygqdHJpYWxfZ3JpZCkKCiAgICBkZWYgaW5pdGlhbGlzZV9zaGFya3Moc2VsZik6CiAgICAgICAgc2VsZi5faW5pdGlhbGlzZV9jcmVhdHVyZXMoU2hhcmssIHNlbGYuaW5pdGlhbF9zaGFya3MpCgogICAgZGVmIGluaXRpYWxpc2VfZmlzaChzZWxmKToKICAgICAgICBzZWxmLl9pbml0aWFsaXNlX2NyZWF0dXJlcyhGaXNoLCBzZWxmLmluaXRpYWxfZmlzaGVzKQoKICAgIGRlZiBkcmF3R3JpZChzZWxmKToKICAgICAgICBmb3IgeCBpbiByYW5nZSgwLCBzZWxmLndpZHRoKToKICAgICAgICAgICAgZm9yIHkgaW4gcmFuZ2UoMCwgc2VsZi5oZWlnaHQpOgogICAgICAgICAgICAgICAgcmVjdCA9IHB5Z2FtZS5SZWN0KAogICAgICAgICAgICAgICAgICAgIHggKiBzZWxmLmJsb2Nrc2l6ZSwKICAgICAgICAgICAgICAgICAgICB5ICogc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICAgICBweWdhbWUuZHJhdy5yZWN0KHNlbGYuc2NyZWVuLCBXSElURSwgcmVjdCwgMSkKICAgICAgICAgICAgICAgIHNlbGYucmVjdHNbKHgsIHkpXSA9IHNlbGYuc2NyZWVuLnN1YnN1cmZhY2UocmVjdCkKCiAgICBkZWYgZHJhd19jcmVhdHVyZXMoc2VsZik6CiAgICAgICAgZm9yIGxvY2F0aW9uLCBjcmVhdHVyZSBpbiBzZWxmLmdyaWQuaXRlbXMoKToKICAgICAgICAgICAgY3JlYXR1cmVfc3VyZmFjZSA9IGNyZWF0dXJlLmdldF9zdXJmYWNlKHNlbGYuYmxvY2tzaXplKQogICAgICAgICAgICBzZWxmLnJlY3RzW2xvY2F0aW9uXS5ibGl0KGNyZWF0dXJlX3N1cmZhY2UsICgyLCAyKSkKCiAgICBkZWYgcnVuKHNlbGYpOgogICAgICAgIHdoaWxlIFRydWU6CiAgICAgICAgICAgIHNlbGYuZHJhd0dyaWQoKQogICAgICAgICAgICBzZWxmLmRyYXdfY3JlYXR1cmVzKCkKICAgICAgICAgICAgZm9yIGV2ZW50IGluIHB5Z2FtZS5ldmVudC5nZXQoKToKICAgICAgICAgICAgICAgIGlmIGV2ZW50LnR5cGUgPT0gcHlnYW1lLlFVSVQ6CiAgICAgICAgICAgICAgICAgICAgcHlnYW1lLnF1aXQoKQogICAgICAgICAgICAgICAgICAgIHN5cy5leGl0KCkKCiAgICAgICAgICAgIHB5Z2FtZS5kaXNwbGF5LnVwZGF0ZSgpCgoKZGVmIG1haW4oKToKICAgIHNuZiA9IFNoYXJrc05GaXNoZXMoMjAsIDIwLCAxMCwgMjApCiAgICBzbmYucnVuKCkKCgppZiBfX25hbWVfXyA9PSAnX19tYWluX18nOgogICAgbWFpbigpCg",
+					"AQAAAAAAAAABAAAAjgIAAAAAAACOAgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					56,
+					1,
+					"black",
+					null,
+					"AQAAAAAAAAAAAAAAjQ0AAAAAAACNDQAAaW1wb3J0IHB5Z2FtZQppbXBvcnQgc3lzCmZyb20gcmFuZG9tIGltcG9ydCByYW5kaW50CmZyb20gZnVuY3Rvb2xzIGltcG9ydCBjYWNoZQoKQkxBQ0sgPSAoMCwgMCwgMCkKV0hJVEUgPSAoMjAwLCAyMDAsIDIwMCkKCgpjbGFzcyBDcmVhdHVyZUZvbnRFcnJvcihFeGNlcHRpb24pOgogICAgcGFzcwoKCmNsYXNzIENyZWF0dXJlOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHNlbGYueCwgc2VsZi55ID0gKHgsIHkpCiAgICAgICAgc2VsZi5mb250ID0gTm9uZQoKICAgIEBjYWNoZQogICAgZGVmIGdldF9mb250KHNlbGYsIGJsb2Nrc2l6ZSk6CiAgICAgICAgZm9udHNpemUgPSBzZWxmLmZvbnRzaXplCiAgICAgICAgZm9yIGZvbnRzaXplIGluIHJhbmdlKHNlbGYuZm9udHNpemUsIDAsIC0xKToKICAgICAgICAgICAgZm9udCA9IHB5Z2FtZS5mb250LlN5c0ZvbnQoIkNhbGlicmkiLCBmb250c2l6ZSkKICAgICAgICAgICAgc3VyZmFjZV9zaXplID0gZm9udC5zaXplKHNlbGYuaWRlbnRpZmllcikKICAgICAgICAgICAgaWYgc3VyZmFjZV9zaXplWzBdIDwgKGJsb2Nrc2l6ZSAtIDIpIGFuZCBzdXJmYWNlX3NpemVbMV0gPCAoYmxvY2tzaXplIC0gMik6CiAgICAgICAgICAgICAgICBicmVhawogICAgICAgIGVsc2U6CiAgICAgICAgICAgIHJhaXNlIENyZWF0dXJlRm9udEVycm9yKCkKICAgICAgICByZXR1cm4gZm9udAoKICAgIGRlZiBnZXRfc3VyZmFjZShzZWxmLCBibG9ja3NpemUpOgogICAgICAgIGZvbnQgPSBzZWxmLmdldF9mb250KGJsb2Nrc2l6ZSkKICAgICAgICBjcmVhdHVyZV9zdXJmYWNlID0gZm9udC5yZW5kZXIoc2VsZi5pZGVudGlmaWVyLCBGYWxzZSwgV0hJVEUpCiAgICAgICAgcmV0dXJuIGNyZWF0dXJlX3N1cmZhY2UKCgpjbGFzcyBTaGFyayhDcmVhdHVyZSk6CiAgICBpZGVudGlmaWVyID0gIlMiCgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHgsIHkpOgogICAgICAgIHN1cGVyKCkuX19pbml0X18oeCwgeSkKICAgICAgICBzZWxmLmZvbnRzaXplID0gMzUKCgpjbGFzcyBGaXNoKENyZWF0dXJlKToKICAgIGlkZW50aWZpZXIgPSAiRiIKCiAgICBkZWYgX19pbml0X18oc2VsZiwgeCwgeSk6CiAgICAgICAgc3VwZXIoKS5fX2luaXRfXyh4LCB5KQogICAgICAgIHNlbGYuZm9udHNpemUgPSAzNQoKCmNsYXNzIFNoYXJrc05GaXNoZXM6CiAgICBkZWYgX19pbml0X18oc2VsZiwgd2lkdGgsIGhlaWdodCwgaW5pdGlhbF9zaGFya3MsIGluaXRpYWxfZmlzaGVzKToKICAgICAgICBzZWxmLmluaXRpYWxfZmlzaGVzID0gaW5pdGlhbF9maXNoZXMKICAgICAgICBzZWxmLmluaXRpYWxfc2hhcmtzID0gaW5pdGlhbF9zaGFya3MKICAgICAgICBzZWxmLndpZHRoID0gd2lkdGgKICAgICAgICBzZWxmLmhlaWdodCA9IGhlaWdodAogICAgICAgIHNlbGYubnVtX2Zpc2ggPSAwCiAgICAgICAgc2VsZi5udW1fc2hhcmtzID0gMAogICAgICAgIHNlbGYuYmxvY2tzaXplID0gMjAKICAgICAgICBzZWxmLmdyaWQgPSB7fQogICAgICAgIHNlbGYucmVjdHMgPSB7fQoKICAgICAgICBweWdhbWUuaW5pdCgpCiAgICAgICAgcHlnYW1lLmZvbnQuaW5pdCgpCiAgICAgICAgc2VsZi5zY3JlZW4gPSBweWdhbWUuZGlzcGxheS5zZXRfbW9kZSgKICAgICAgICAgICAgKHNlbGYud2lkdGggKiBzZWxmLmJsb2Nrc2l6ZSwgc2VsZi5oZWlnaHQgKiBzZWxmLmJsb2Nrc2l6ZSkKICAgICAgICApCiAgICAgICAgc2VsZi5jbG9jayA9IHB5Z2FtZS50aW1lLkNsb2NrKCkKICAgICAgICBzZWxmLnNjcmVlbi5maWxsKEJMQUNLKQogICAgICAgIHNlbGYuaW5pdGlhbGlzZV9maXNoKCkKICAgICAgICBzZWxmLmluaXRpYWxpc2Vfc2hhcmtzKCkKCiAgICBkZWYgX2luaXRpYWxpc2VfY3JlYXR1cmVzKHNlbGYsIGNyZWF0dXJlX2NsYXNzLCBudW1fY3JlYXR1cmVzKToKICAgICAgICBjcmVhdHVyZXMgPSBbXQogICAgICAgIHdoaWxlIGxlbihjcmVhdHVyZXMpIDwgbnVtX2NyZWF0dXJlczoKICAgICAgICAgICAgdHJpYWxfZ3JpZCA9IChyYW5kaW50KDAsIHNlbGYud2lkdGggLSAxKSwgcmFuZGludCgwLCBzZWxmLmhlaWdodCAtIDEpKQogICAgICAgICAgICBpZiB0cmlhbF9ncmlkIG5vdCBpbiBzZWxmLmdyaWQ6CiAgICAgICAgICAgICAgICBjcmVhdHVyZXMuYXBwZW5kKHRyaWFsX2dyaWQpCiAgICAgICAgICAgICAgICBzZWxmLmdyaWRbdHJpYWxfZ3JpZF0gPSBjcmVhdHVyZV9jbGFzcygqdHJpYWxfZ3JpZCkKCiAgICBkZWYgaW5pdGlhbGlzZV9zaGFya3Moc2VsZik6CiAgICAgICAgc2VsZi5faW5pdGlhbGlzZV9jcmVhdHVyZXMoU2hhcmssIHNlbGYuaW5pdGlhbF9zaGFya3MpCgogICAgZGVmIGluaXRpYWxpc2VfZmlzaChzZWxmKToKICAgICAgICBzZWxmLl9pbml0aWFsaXNlX2NyZWF0dXJlcyhGaXNoLCBzZWxmLmluaXRpYWxfZmlzaGVzKQoKICAgIGRlZiBkcmF3R3JpZChzZWxmKToKICAgICAgICBmb3IgeCBpbiByYW5nZSgwLCBzZWxmLndpZHRoKToKICAgICAgICAgICAgZm9yIHkgaW4gcmFuZ2UoMCwgc2VsZi5oZWlnaHQpOgogICAgICAgICAgICAgICAgcmVjdCA9IHB5Z2FtZS5SZWN0KAogICAgICAgICAgICAgICAgICAgIHggKiBzZWxmLmJsb2Nrc2l6ZSwKICAgICAgICAgICAgICAgICAgICB5ICogc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICAgICAgc2VsZi5ibG9ja3NpemUsCiAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICAgICBweWdhbWUuZHJhdy5yZWN0KHNlbGYuc2NyZWVuLCBXSElURSwgcmVjdCwgMSkKICAgICAgICAgICAgICAgIHNlbGYucmVjdHNbKHgsIHkpXSA9IHNlbGYuc2NyZWVuLnN1YnN1cmZhY2UocmVjdCkKCiAgICBkZWYgZHJhd19jcmVhdHVyZXMoc2VsZik6CiAgICAgICAgZm9yIGxvY2F0aW9uLCBjcmVhdHVyZSBpbiBzZWxmLmdyaWQuaXRlbXMoKToKICAgICAgICAgICAgY3JlYXR1cmVfc3VyZmFjZSA9IGNyZWF0dXJlLmdldF9zdXJmYWNlKHNlbGYuYmxvY2tzaXplKQogICAgICAgICAgICBzZWxmLnJlY3RzW2xvY2F0aW9uXS5ibGl0KGNyZWF0dXJlX3N1cmZhY2UsICgyLCAyKSkKCiAgICBkZWYgcnVuKHNlbGYpOgogICAgICAgIHdoaWxlIFRydWU6CiAgICAgICAgICAgIHNlbGYuZHJhd0dyaWQoKQogICAgICAgICAgICBzZWxmLmRyYXdfY3JlYXR1cmVzKCkKICAgICAgICAgICAgZm9yIGV2ZW50IGluIHB5Z2FtZS5ldmVudC5nZXQoKToKICAgICAgICAgICAgICAgIGlmIGV2ZW50LnR5cGUgPT0gcHlnYW1lLlFVSVQ6CiAgICAgICAgICAgICAgICAgICAgcHlnYW1lLnF1aXQoKQogICAgICAgICAgICAgICAgICAgIHN5cy5leGl0KCkKCiAgICAgICAgICAgIHB5Z2FtZS5kaXNwbGF5LnVwZGF0ZSgpCgoKZGVmIG1haW4oKToKICAgIHNuZiA9IFNoYXJrc05GaXNoZXMoMjAsIDIwLCAxMCwgMjApCiAgICBzbmYucnVuKCkKCgppZiBfX25hbWVfXyA9PSAnX19tYWluX18nOgogICAgbWFpbigpCg",
+					"AQAAAAAAAAABAAAAbQIAAAAAAABtAgAAAAAAAAAAAAAAQGNA"
+				]
+			]
+		},
+		{
+			"file": "pyproject.toml",
+			"settings":
+			{
+				"buffer_size": 295,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					2,
+					1,
+					"insert_snippet",
+					{
+						"contents": "[tool.black]\nline-length = 120\ntarget-version = ['py38']\ninclude = '\\.pyi?\\$'\nextend-exclude = '''\n# A regex preceded with ^/ will apply only to files and directories\n# in the root of the project.\n^/foo.py  # exclude a file named foo.py in the root of the project (in addition to the defaults)\n'''"
+					},
+					"AQAAAAAAAAAAAAAAKAEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					7,
+					1,
+					"replace_character",
+					{
+						"character": "0"
+					},
+					"AQAAABwAAAAAAAAAHQAAAAAAAAABAAAAMg",
+					"AQAAAAAAAAABAAAAHAAAAAAAAAAcAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					11,
+					1,
+					"sequence",
+					{
+						"commands":
+						[
+							[
+								"vi_eval",
+								{
+									"action_args":
+									{
+										"insert_command": "vi_delete"
+									},
+									"action_command": "enter_insert_mode",
+									"motion_args":
+									{
+										"extend": true,
+										"repeat": 1
+									},
+									"motion_clip_to_line": true,
+									"motion_command": "vi_move_to_hard_eol",
+									"motion_inclusive": true,
+									"motion_mode": 0
+								}
+							],
+							[
+								"insert",
+								{
+									"characters": "88"
+								}
+							],
+							[
+								"exit_insert_mode",
+								null
+							]
+						]
+					},
+					"AwAAABsAAAAAAAAAGwAAAAAAAAADAAAAMTAwGwAAAAAAAAAcAAAAAAAAAAAAAAAcAAAAAAAAAB0AAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAGwAAAAAAAAAbAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					14,
+					1,
+					"replace_character",
+					{
+						"character": "9"
+					},
+					"AQAAADQAAAAAAAAANQAAAAAAAAABAAAAOA",
+					"AQAAAAAAAAABAAAANAAAAAAAAAA0AAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"contents": "Package Control Messages\n========================\n\npython-black\n------------\n\n  Python Black\n  ================\n\n  Because `py38` cannot use dependencies, place the required dependencies in this package.\n  Starting from version 1.0.0, no more configuration `black` command is required.\n\n\n  Changelog\n  -----------\n  1.0.3\n      - Compare versions when loading plugins to reduce disk io\n  1.0.2\n      - Solve the issue that the lib library cannot be imported correctly by decompressing the sublime-package\n  1.0.0\n      - No longer need to manually install the black library, \n      you only need to care about whether to automatically \n      format the document when saving\n  0.0.8\n      - add the function of calling the `black` package\n      - determine the formatting method according to whether the \n          command in the setting is an absolute path\n  0.0.6\n      - add the function of automatic formatting on save\n  0.0.5:\n      - add a command to create a black configuration file\n      - modify the project structure\n      - add formatted status messages to the status bar\n  0.0.4:\n      - add `.python-version` file use python 3.8\n  0.0.3:\n      - format code with buffer\n  0.0.2:\n      - delete default key-map\n  0.0.1:\n      - init",
+			"settings":
+			{
+				"buffer_size": 1244,
+				"line_ending": "Unix",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			},
+			"undo_stack":
+			[
+				[
+					2,
+					1,
+					"insert",
+					{
+						"characters": "Package Control Messages\n========================\n\npython-black\n------------\n\n  Python Black\n  ================\n\n  Because `py38` cannot use dependencies, place the required dependencies in this package.\n  Starting from version 1.0.0, no more configuration `black` command is required.\n\n\n  Changelog\n  -----------\n  1.0.3\n      - Compare versions when loading plugins to reduce disk io\n  1.0.2\n      - Solve the issue that the lib library cannot be imported correctly by decompressing the sublime-package\n  1.0.0\n      - No longer need to manually install the black library, \n      you only need to care about whether to automatically \n      format the document when saving\n  0.0.8\n      - add the function of calling the `black` package\n      - determine the formatting method according to whether the \n          command in the setting is an absolute path\n  0.0.6\n      - add the function of automatic formatting on save\n  0.0.5:\n      - add a command to create a black configuration file\n      - modify the project structure\n      - add formatted status messages to the status bar\n  0.0.4:\n      - add `.python-version` file use python 3.8\n  0.0.3:\n      - format code with buffer\n  0.0.2:\n      - delete default key-map\n  0.0.1:\n      - init"
+					},
+					"TAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAAAAAAAAAZAAAAAAAAAAAAAAAZAAAAAAAAADEAAAAAAAAAAAAAADEAAAAAAAAAMgAAAAAAAAAAAAAAMgAAAAAAAAAzAAAAAAAAAAAAAAAzAAAAAAAAAD8AAAAAAAAAAAAAAD8AAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAABMAAAAAAAAAAAAAABMAAAAAAAAAE0AAAAAAAAAAAAAAE0AAAAAAAAATgAAAAAAAAAAAAAATgAAAAAAAABcAAAAAAAAAAAAAABcAAAAAAAAAF0AAAAAAAAAAAAAAF0AAAAAAAAAbwAAAAAAAAAAAAAAbwAAAAAAAABwAAAAAAAAAAAAAABwAAAAAAAAAHEAAAAAAAAAAAAAAHEAAAAAAAAAywAAAAAAAAAAAAAAywAAAAAAAADMAAAAAAAAAAAAAADMAAAAAAAAAB0BAAAAAAAAAAAAAB0BAAAAAAAAHgEAAAAAAAAAAAAAHgEAAAAAAAAfAQAAAAAAAAAAAAAfAQAAAAAAACABAAAAAAAAAAAAACABAAAAAAAAKwEAAAAAAAAAAAAAKwEAAAAAAAAsAQAAAAAAAAAAAAAsAQAAAAAAADkBAAAAAAAAAAAAADkBAAAAAAAAOgEAAAAAAAAAAAAAOgEAAAAAAABBAQAAAAAAAAAAAABBAQAAAAAAAEIBAAAAAAAAAAAAAEIBAAAAAAAAgQEAAAAAAAAAAAAAgQEAAAAAAACCAQAAAAAAAAAAAACCAQAAAAAAAIkBAAAAAAAAAAAAAIkBAAAAAAAAigEAAAAAAAAAAAAAigEAAAAAAAD4AQAAAAAAAAAAAAD4AQAAAAAAAPkBAAAAAAAAAAAAAPkBAAAAAAAAAAIAAAAAAAAAAAAAAAIAAAAAAAABAgAAAAAAAAAAAAABAgAAAAAAAD8CAAAAAAAAAAAAAD8CAAAAAAAAQAIAAAAAAAAAAAAAQAIAAAAAAAB7AgAAAAAAAAAAAAB7AgAAAAAAAHwCAAAAAAAAAAAAAHwCAAAAAAAAoQIAAAAAAAAAAAAAoQIAAAAAAACiAgAAAAAAAAAAAACiAgAAAAAAAKkCAAAAAAAAAAAAAKkCAAAAAAAAqgIAAAAAAAAAAAAAqgIAAAAAAADhAgAAAAAAAAAAAADhAgAAAAAAAOICAAAAAAAAAAAAAOICAAAAAAAAIwMAAAAAAAAAAAAAIwMAAAAAAAAkAwAAAAAAAAAAAAAkAwAAAAAAAFgDAAAAAAAAAAAAAFgDAAAAAAAAWQMAAAAAAAAAAAAAWQMAAAAAAABgAwAAAAAAAAAAAABgAwAAAAAAAGEDAAAAAAAAAAAAAGEDAAAAAAAAmQMAAAAAAAAAAAAAmQMAAAAAAACaAwAAAAAAAAAAAACaAwAAAAAAAKIDAAAAAAAAAAAAAKIDAAAAAAAAowMAAAAAAAAAAAAAowMAAAAAAADdAwAAAAAAAAAAAADdAwAAAAAAAN4DAAAAAAAAAAAAAN4DAAAAAAAAAgQAAAAAAAAAAAAAAgQAAAAAAAADBAAAAAAAAAAAAAADBAAAAAAAADoEAAAAAAAAAAAAADoEAAAAAAAAOwQAAAAAAAAAAAAAOwQAAAAAAABDBAAAAAAAAAAAAABDBAAAAAAAAEQEAAAAAAAAAAAAAEQEAAAAAAAAdQQAAAAAAAAAAAAAdQQAAAAAAAB2BAAAAAAAAAAAAAB2BAAAAAAAAH4EAAAAAAAAAAAAAH4EAAAAAAAAfwQAAAAAAAAAAAAAfwQAAAAAAACeBAAAAAAAAAAAAACeBAAAAAAAAJ8EAAAAAAAAAAAAAJ8EAAAAAAAApwQAAAAAAAAAAAAApwQAAAAAAACoBAAAAAAAAAAAAACoBAAAAAAAAMYEAAAAAAAAAAAAAMYEAAAAAAAAxwQAAAAAAAAAAAAAxwQAAAAAAADPBAAAAAAAAAAAAADPBAAAAAAAANAEAAAAAAAAAAAAANAEAAAAAAAA3AQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					""
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/cpuem.sublime-build",
+					""
+				],
+				[
+					"Packages/User/cpuem.sublime-build",
+					"Assembler"
+				],
+				[
+					"Packages/User/cpuem.sublime-build",
+					"Emulator"
+				],
+				[
+					"Packages/User/hsim.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					""
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/cpuem.sublime-build",
+					""
+				],
+				[
+					"Packages/User/cpuem.sublime-build",
+					"Assembler"
+				],
+				[
+					"Packages/User/cpuem.sublime-build",
+					"Emulator"
+				],
+				[
+					"Packages/User/hsim.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					""
+				],
+				[
+					"Packages/C++11/C++11.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"black",
+				"python-black: Format the selected code or the code of the entire file"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Build:",
+				"Build: New Build System"
+			],
+			[
+				"te",
+				"Text Pastry: Range (numeric)"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				"text ra",
+				"Text Pastry: Range (numeric)"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Install Package Control"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 172.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/mnj/Projects/SharksNFishes"
+	],
+	"file_history":
+	[
+		"/home/mnj/Projects/cpp_for_c_programmers_A/dijkstra.cpp",
+		"/home/mnj/Dropbox/Language/Coptic/Lambdin/preface.xml",
+		"/home/mnj/Dropbox/Language/Coptic/Lambdin/Lambdin.xml",
+		"/home/mnj/Dropbox/Language/Coptic/Lambdin/Lambdin.txt",
+		"/home/mnj/Dropbox/Language/Coptic/Lambdin/Lambdin_book_reformat/L04_Lesson 4.txt",
+		"/home/mnj/Dropbox/Language/Coptic/Lambdin/Lambdin_book_reformat/L01_Lesson 1.txt",
+		"/home/mnj/Dropbox/Language/Coptic/Lambdin/Lambdin_book_reformat/L05_Lesson 5.txt",
+		"/home/mnj/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/mnj/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 115.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "sharksnfishes.py",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3469,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2008,
+								2008
+							]
+						],
+						"settings":
+						{
+							"layout_engine": "dot",
+							"output_format": "png",
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1252.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "pyproject.toml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 295,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								294,
+								294
+							]
+						],
+						"settings":
+						{
+							"layout_engine": "dot",
+							"output_format": "png",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1244,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1244,
+								1244
+							]
+						],
+						"settings":
+						{
+							"auto_indent": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_width": 2,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 46.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 257.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.graphvizer_panel":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "SharksNFishes.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 283.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
